@@ -3,11 +3,16 @@ import { api } from "./api";
 
 export const authService = {
   async login(email: string, senha: string) {
-    const { data } = await api.post("usuario/auth/login", { email, senha });
+    const { data } = await api.post("/usuario/auth/login", { email, senha });
     return data;
   },
   async criar(email: string, senha: string, nome: string): Promise<IUsuario> {
     const { data } = await api.post("/usuario", { email, senha, nome });
+    return data;
+  },
+
+  async me(): Promise<IUsuario> {
+    const { data } = await api.get("/usuario/auth/me");
     return data;
   },
 };

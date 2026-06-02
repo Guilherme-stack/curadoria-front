@@ -18,6 +18,13 @@ export const curadoriaService = {
     const { data } = await api.patch(`/curadoria/${id}`, dados);
     return data;
   },
+  async gerarInsight(
+    id: string,
+    dados: Record<string, unknown>,
+  ): Promise<ICuradoria> {
+    const { data } = await api.patch(`/curadoria/insight/${id}`, dados);
+    return data;
+  },
   async deletar(id: string) {
     await api.delete(`/curadoria/${id}`);
   },

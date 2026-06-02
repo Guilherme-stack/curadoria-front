@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import { authService } from "../services/auth.service";
 
 export interface IUsuario {
@@ -29,6 +35,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUsuario(usuario);
     setToken(token);
   }
+
+  useEffect(() => {
+    async function recuperarSessao() {
+      const usuario = await authService.me();
+      setUsuario(usuario);
+    }
+
+    recuperarSessao();
+  }, []);
 
   async function logout() {
     setUsuario(null);

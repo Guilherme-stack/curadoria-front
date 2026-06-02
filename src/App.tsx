@@ -5,6 +5,7 @@ import { Curadoria } from "./pages/Curadorias";
 import { Cadastro } from "./pages/Cadastro";
 import type { ReactNode } from "react";
 import { CuradoriaDetalhe } from "./pages/CuradoriaDetalhe";
+import { Layout } from "./components/Layout";
 
 function RotaProtegida({ children }: { children: ReactNode }) {
   const { estaAutenticado } = useAuth();
@@ -21,21 +22,15 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route
-          path="/curadorias"
           element={
             <RotaProtegida>
-              <Curadoria />
+              <Layout />
             </RotaProtegida>
           }
-        />
-        <Route
-          path="/curadorias/:id"
-          element={
-            <RotaProtegida>
-              <CuradoriaDetalhe />
-            </RotaProtegida>
-          }
-        />
+        >
+          <Route path="/curadorias" element={<Curadoria />} />
+          <Route path="/curadorias/:id" element={<CuradoriaDetalhe />} />
+        </Route>
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
