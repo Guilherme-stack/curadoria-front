@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# Curadoria
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web de uma aplicação de curadoria cultural com inteligência artificial. Envie trechos de músicas, livros ou falas e receba interpretações profundas que revelam as camadas filosóficas, psicológicas e sociológicas do conteúdo.
 
-Currently, two official plugins are available:
+## Acesse
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**[curadoria.vercel.app](https://curadoria-front.vercel.app/curadorias)**
 
-## React Compiler
+## Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Cadastro e login com persistência de sessão
+- Criação de curadorias com geração automática de insight por IA
+- Listagem e visualização de curadorias salvas
+- Regeneração de insight para curadorias sem análise
+- Interface responsiva para mobile e desktop
 
-## Expanding the ESLint configuration
+## Tecnologias
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 18 + TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn/ui
+- React Router DOM
+- Axios
+- Context API para gerenciamento de autenticação
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Como rodar localmente
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Pré-requisito:** backend rodando localmente ou apontar para a API em produção
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone o repositório
+
+```bash
+git clone https://github.com/Guilherme-stack/curadoria-front.git
+cd curadoria-front
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instale as dependências
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+3. Configure a variável de ambiente
+
+```bash
+cp .env.example .env
+```
+
+VITE_API_URL=http://localhost:3000 4. Rode o projeto
+
+```bash
+npm run dev
+```
+
+Acesse `http://localhost:5173`
+
+## Estrutura do projeto
+
+## Variáveis de ambiente
+
+| Variável     | Descrição               |
+| ------------ | ----------------------- |
+| VITE_API_URL | URL base da API backend |
+
+## Repositório do backend
+
+[curadoria-app](https://github.com/Guilherme-stack/curadoria-app)
