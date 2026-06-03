@@ -2,40 +2,25 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/auth.context";
 import { Button } from "../../@/components/ui/button";
 import { LogOut, Plus, BookMarked } from "lucide-react";
-import { useEffect, useState } from "react";
 import type { ICuradoria } from "../@types/curadoria";
-import { curadoriaService } from "../services/curadoria.service";
 import { CardCuradoria } from "./CardCuradoria";
 interface SidebarProps {
+  curadorias: ICuradoria[];
   aoFechar?: () => void;
 }
-export function Sidebar({ aoFechar }: SidebarProps) {
+export function Sidebar({ aoFechar, curadorias }: SidebarProps) {
   const { usuario, logout } = useAuth();
   const navigate = useNavigate();
-  const [curadorias, setCuradorias] = useState<ICuradoria[]>([]);
-
-  async function buscarCuradorias() {
-    try {
-      const curadorias = await curadoriaService.listar();
-      setCuradorias(curadorias);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   function navegarPara(rota: string) {
     navigate(rota);
-    aoFechar?.(); // fecha a sidebar no mobile após navegar
+    aoFechar?.();
   }
 
   function handleLogout() {
     logout();
     navigate("/login");
   }
-
-  useEffect(() => {
-    (async () => buscarCuradorias())();
-  }, []);
 
   if (!usuario) return null;
   return (

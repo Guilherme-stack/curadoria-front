@@ -1,11 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import { Menu } from "lucide-react";
+import type { ICuradoria } from "../@types/curadoria";
+import { curadoriaService } from "../services/curadoria.service";
 
+export interface OutletContext {
+  aocriarCuradoria: (nova: ICuradoria) => void;
+  aoDeletarCuradoria: (id: string) => void;
+}
 export function Layout() {
   const [sidebarAberta, setSidebarAberta] = useState(false);
+  const [curadorias, setCuradorias] = useState<ICuradoria[]>([]);
 
+  useEffect(() => {
+    async function buscar() {
+      try {
+        const data = await curadoriaService.listar();
+        setCuradorias(data);
+      } catch {
+        console.error("Erro ao buscar curadorias");
+      }
+    }
+    buscar();
+  }, []);
+
+  function aocriarCuradoria(nova: ICuradoria) {
+    setCuradorias((anterior) => [nova, ...anterior]);
+  }
+
+  function aoDeletarCuradoria(id: string) {
+    setCuradorias((anterior) => anterior.filter((c) => c.id !== id));
+  }
   return (
     <div className="flex h-screen bg-[#1C1B1A]">
       {/* Overlay escuro ao abrir sidebar no mobile */}
@@ -25,7 +51,10 @@ export function Layout() {
         lg:translate-x-0
       `}
       >
-        <Sidebar aoFechar={() => setSidebarAberta(false)} />
+        <Sidebar
+          curadorias={curadorias}
+          aoFechar={() => setSidebarAberta(false)}
+        />
       </div>
 
       {/* Conteúdo principal */}
@@ -42,7 +71,7 @@ export function Layout() {
         </header>
 
         <main className="flex-1 overflow-y-auto">
-          <Outlet />
+          <Outlet context={{ aocriarCuradoria, aoDeletarCuradoria }} />
         </main>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { curadoriaService } from "../services/curadoria.service";
 import { useEffect, useState } from "react";
 import type { ICuradoria } from "../@types/curadoria";
@@ -6,6 +6,7 @@ import { Button } from "../../@/components/ui/button";
 import { Sparkles, Trash2, ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { SkeletonDetalhe } from "../components/skeletons/SkeletonDetalhe";
+import type { OutletContext } from "../components/Layout";
 
 export function CuradoriaDetalhe() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ export function CuradoriaDetalhe() {
   const [carregando, setCarregando] = useState(true);
   const [deletando, setDeletando] = useState(false);
   const [gerandoInsight, setGerandoInsight] = useState(false);
+  const { aoDeletarCuradoria } = useOutletContext<OutletContext>();
 
   useEffect(() => {
     async function buscarPorId() {
@@ -38,6 +40,7 @@ export function CuradoriaDetalhe() {
     setDeletando(true);
     try {
       await curadoriaService.deletar(id);
+      aoDeletarCuradoria(id);
       toast.success("Curadoria deletada.");
       navigate("/curadorias");
     } catch {

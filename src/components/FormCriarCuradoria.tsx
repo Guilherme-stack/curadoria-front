@@ -15,7 +15,11 @@ import {
 } from "../../@/components/ui/select";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-export function FormCriarCuradoria() {
+export function FormCriarCuradoria({
+  aoCriarCuradoria,
+}: {
+  aoCriarCuradoria: (nova: ICuradoria) => void;
+}) {
   const [titulo, setTitulo] = useState("");
   const [autor, setAutor] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -25,19 +29,19 @@ export function FormCriarCuradoria() {
 
   const navigate = useNavigate();
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
     setCarregando(true);
 
     try {
-      const nova = (await curadoriaService.criar({
+      const nova = await curadoriaService.criar({
         titulo,
         autor,
         conteudo,
         categoria,
         fonte,
         tags: [],
-      })) as ICuradoria;
+      });
       setTitulo("");
       setAutor("");
       setCategoria("");
@@ -45,6 +49,7 @@ export function FormCriarCuradoria() {
       setConteudo("");
 
       navigate(`/curadorias/${nova.id}`);
+      aoCriarCuradoria(nova);
       toast.success("Curadoria criada com sucesso!");
     } catch (error) {
       console.error(error);
